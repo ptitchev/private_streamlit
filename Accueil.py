@@ -1,67 +1,27 @@
-
-import google_auth_httplib2
-import httplib2
+import numpy as np
 import pandas as pd
 import streamlit as st
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
-from googleapiclient.http import HttpRequest
+from github import Github
+
+#0 : Data
+df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
+
+df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
+
 
 #1 : BackEnd + password
 
-SCOPE = "https://www.googleapis.com/auth/spreadsheets"
-SPREADSHEET_ID = "1686ALWAOK-hf-PffltoH3axFiUUREZUdF4lI7sCXmqQ"
-POST_NAME = "Reponse"
-GET_NAME = "Montrer"
-GSHEET_URL = f"https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}"
-
-@st.experimental_singleton()
-def connect_to_gsheet():
-    credentials = service_account.Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"],
-        scopes=[SCOPE],
-    )
-
-    def build_request(http, *args, **kwargs):
-        new_http = google_auth_httplib2.AuthorizedHttp(
-            credentials, http=httplib2.Http()
-        )
-        return HttpRequest(new_http, *args, **kwargs)
-
-    authorized_http = google_auth_httplib2.AuthorizedHttp(
-        credentials, http=httplib2.Http()
-    )
-    service = build(
-        "sheets",
-        "v4",
-        requestBuilder=build_request,
-        http=authorized_http,
-    )
-    gsheet_connector = service.spreadsheets()
-    return gsheet_connector
-
-    def get_data(gsheet_connector) -> pd.DataFrame:
-        values = (
-        gsheet_connector.values()
-        .get(
-            spreadsheetId=SPREADSHEET_ID,
-            range=f"{GET_NAME}!A:C",
-        )
-        .execute()
-    )
-
-    df = pd.DataFrame(values["values"])
-    df.columns = df.iloc[0]
-    df = df[1:]
-    return df
-
-def add_row_to_gsheet(gsheet_connector, row) -> None:
-    gsheet_connector.values().append(
-        spreadsheetId=SPREADSHEET_ID,
-        range=f"{POST_NAME}!A:G",
-        body=dict(values=row),
-        valueInputOption="USER_ENTERED",
-    ).execute()
+def add_data_rep():
+    rep = st.session_state['rep']
+    g = Github(st.secrets["github_token"])
+    repo = g.get_user().get_repo("private_streamlit")
+    file = repo.get_contents("/data/dr.csv")
+    content = file.decoded_content.decode('utf-8')
+    df_row = pd.DataFrame([rep], columns = df_rep.columns)
+    df = pd.concat((df_rep, df_row))
+    updated_content = df.to_csv(index=False)
+    repo.update_file("data/dr.csv", 'Updated', updated_content, file.sha)
+    
 
 def check_password():
     def password_entered():
@@ -91,8 +51,6 @@ st.set_page_config(page_title="Projet Chev")
 
 if check_password():
 
-    gsheet_connector = connect_to_gsheet()
-
     st.subheader("Bien joué mon reuf : tu es invité(e) à l'anniv de Chev")
 
     with st.expander("Informations"):
@@ -100,9 +58,10 @@ if check_password():
         st.write("J'avoue ça a l'air barbant comme ça, mais pour voir encore plus grand, je m'organise en avance pour nous permettre de mieux festoyer. Si t'es chaud, on se retrouve en région maconnaise pour fêter ça.")
         st.write("Le site va pas mal évoluer jusqu'à la date de la soirée donc hésite pas à revenir jetter un coup d'oeil.")
         st.write("Pour info, mon anniv c'est le 2 juin.")
+        st.write("Chev")
 
     with st.expander("Participants"):
-        st.dataframe(get_data(gsheet_connector))
+        st.dataframe(df_shown, use_container_width= True)
 
     with st.form("Inscription", clear_on_submit = True):
         st.write('Remplis-moi ça :')
@@ -130,9 +89,10 @@ if check_password():
         st.write(" ")
         blank1, mid, blank2 = st.columns(3)
         with mid :
-            submitted = st.form_submit_button("Valider", use_container_width  = True)
+            submitted = st.form_submit_button("Valider", use_container_width  = True, on_click = add_data_rep)
+
+        st.session_state['rep'] = (idp, we1, we2, contact, info_contact, hype, ptheme)
 
     if submitted :
         st.success("Let's go ! Je te tiens au courant pour la suite")
         st.balloons()
-        add_row_to_gsheet(gsheet_connector,[[idp, we1, we2, contact, info_contact, hype, ptheme]],)
