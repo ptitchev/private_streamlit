@@ -1,3 +1,4 @@
 pandas
-google_api_python_client
+numpy
 streamlit==1.13.0
+github
