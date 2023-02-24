@@ -89,7 +89,7 @@ if check_password():
         st.write(" ")
         blank1, mid, blank2 = st.columns(3)
         with mid :
-            submitted = st.form_submit_button("Valider", use_container_width  = True, on_click = add_data_rep)
+            submitted = st.form_submit_button("Valider", on_click = add_data_rep)
 
         st.session_state['rep'] = (idp, we1, we2, contact, info_contact, hype, ptheme)
 
