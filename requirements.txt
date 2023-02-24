@@ -1,4 +1,4 @@
 pandas
 numpy
 streamlit==1.13.0
-github
+PyGithub
