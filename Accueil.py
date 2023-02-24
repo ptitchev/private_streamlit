@@ -68,15 +68,14 @@ if check_password():
         idp = st.text_input("Nom, Prénom, Surnom ou N° de sécu :")
         st.caption("Disponibilité :")
         col1, col2 =st.columns(2)
+        we1 = st.checkbox('Weekend 2-4 juin')
         with col1 :
-            we1 = st.checkbox('Weekend 2-4 juin')
             st.write(" ")
             contact = st.multiselect(
             'Moyen de contact privilégié',
             ["Insta", "Messenger", "WhatsApp", "SMS", "Snap", "Mail", "LinkedIn", "Tinder", "Pigeon voyageur"]
         )
         with col2 :
-            we2 = st.checkbox('Weekend 9-11 juin')
             st.write(" ")
             info_contact = st.text_input("Infos de contact supplémentaires :", ' ')
         st.write(" ")
@@ -91,7 +90,7 @@ if check_password():
         with mid :
             submitted = st.form_submit_button("Valider", on_click = add_data_rep)
 
-        st.session_state['rep'] = (idp, we1, we2, contact, info_contact, hype, ptheme)
+        st.session_state['rep'] = (idp, we1, contact, info_contact, hype, ptheme)
 
     if submitted :
         st.success("Let's go ! Je te tiens au courant pour la suite")
