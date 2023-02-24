@@ -67,8 +67,8 @@ if check_password():
         st.write('Remplis-moi ça :')
         idp = st.text_input("Nom, Prénom, Surnom ou N° de sécu :")
         st.caption("Disponibilité :")
-        col1, col2 =st.columns(2)
         we1 = st.checkbox('Weekend 2-4 juin')
+        col1, col2 =st.columns(2)
         with col1 :
             st.write(" ")
             contact = st.multiselect(
