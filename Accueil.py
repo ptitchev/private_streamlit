@@ -9,7 +9,7 @@ df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streaml
 
 def commit(df, name):
     updated_content = df.to_csv(index=False)
-    g = Github('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')
+    g = Github(st.secrets["github_token"])
     repo = g.get_user().get_repo("private_streamlit")
     file = repo.get_contents("/data/" + name + ".csv")
     #content = file.decoded_content.decode('utf-8')
