@@ -35,7 +35,7 @@ st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 
 #1 : BackEnd + password
 
- def add_data_rep(idp, we1, contact, info_contact, hype, ptheme): #envoi les data sur github
+def add_data_rep(idp, we1, contact, info_contact, hype, ptheme): #envoi les data sur github
     rep = (idp, we1, contact, info_contact, hype, ptheme)
     df_row = pd.DataFrame([rep], columns = df_rep.columns)
     df = pd.concat((df_rep, df_row))
