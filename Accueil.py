@@ -8,24 +8,12 @@ df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_strea
 df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
 
 def commit(df, name):
-    g = Github(st.secrets["github_token"])
+    updated_content = df.to_csv(index=False)
+    g = Github('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')
     repo = g.get_user().get_repo("private_streamlit")
     file = repo.get_contents("/data/" + name + ".csv")
-    content = file.decoded_content.decode('utf-8')
-    updated_content = df.to_csv(index=False)
-    repo.update_file("/data/ds.csv", 'Updated', updated_content, file.sha)
-
-
-def add_data_rep(idp, we1, contact, info_contact, hype, ptheme): #envoi les data sur github
-    rep = (idp, we1, contact, info_contact, hype, ptheme)
-    g = Github(st.secrets["github_token"])
-    repo = g.get_user().get_repo("private_streamlit")
-    file = repo.get_contents("/data/dr.csv")
-    content = file.decoded_content.decode('utf-8')
-    df_row = pd.DataFrame([rep], columns = df_rep.columns)
-    df = pd.concat((df_rep, df_row))
-    updated_content = df.to_csv(index=False)
-    repo.update_file("data/dr.csv", 'Updated', updated_content, file.sha)
+    #content = file.decoded_content.decode('utf-8')
+    repo.update_file("data/" + name + ".csv", 'Updated', updated_content, file.sha)
 
 #2 : CSS
 hide_menu_style = """
@@ -47,11 +35,11 @@ st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 
 #1 : BackEnd + password
 
-def add_data_rep2(idp, we1, contact, info_contact, hype, ptheme): #envoi les data sur github
+ def add_data_rep(idp, we1, contact, info_contact, hype, ptheme): #envoi les data sur github
     rep = (idp, we1, contact, info_contact, hype, ptheme)
     df_row = pd.DataFrame([rep], columns = df_rep.columns)
     df = pd.concat((df_rep, df_row))
-    commit(df, "dr")  
+    commit(df, "dr") 
 
 def check_password():
     def password_entered():
@@ -74,7 +62,7 @@ def check_password():
         st.text_input(
             "Password", type="password", on_change=password_entered, key="password"
         )
-        st.error("Mauvais mot de passe BG")
+        st.error("Mauvais mot de passe BG, regarde ma bio insta")
         return False
     else:
         return True
@@ -87,7 +75,7 @@ if check_password():
 
         st.subheader("Bien joué mon reuf : tu es invité(e) à l'anniv de Chev")
 
-        st.warning("Les réponses de la version précédentes n'ont pas été conservées", icon="⚠️")
+        st.warning("Les réponses de la version précédente n'ont pas été conservées", icon="⚠️")
 
         with st.expander("Informations"):
             st.write("Comme chaque années depuis 2015, pour célébrer mon anniversaire, j'organise un grand weekend festif. Au programme, BBQ, piscine, basket, pétanque et autres activités, mais surtout beaucoup d'alcool (même si c'est pas cool) et de rires.")
