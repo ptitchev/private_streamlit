@@ -43,7 +43,7 @@ hide_sidebar_style =  """
     """ #permet de cacher le nav menu
 
 st.set_page_config(page_title="Projet Chev", initial_sidebar_state="collapsed") #configue page (Nome et nav menu fermé)
-#st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
+st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 
 #1 : BackEnd + password
 
