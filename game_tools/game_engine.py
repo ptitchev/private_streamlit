@@ -142,7 +142,7 @@ def D_cardiaque(depassements):
   return False
 
 def D_affame(depassements):
-  if depassements[5] > 2 :
+  if depassements[5] < -1 :
     return True
   return False
   
