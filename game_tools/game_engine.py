@@ -132,7 +132,7 @@ def D_confiant(depassements):
   return False
 
 def D_allutination(depassements):
-  if (depassements[4] < 0) and (depassements[5]> 2 ):
+  if (depassements[4] > 1) and (depassements[5]< -1 ):
     return True
   return False
 
