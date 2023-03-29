@@ -188,7 +188,7 @@ def send_choix(nb = nb_choix):
 
 #@numba.njit
 def play_turn(game, choix = np.zeros(1)):
-  if len(choix) > 1:
+  if len(choix) > 1: # en vie et pas dodo
     game[-1] += 1
     update_etat(game[0:8], choix)
     check_etat(game[0:8], game[8:15])
@@ -196,7 +196,15 @@ def play_turn(game, choix = np.zeros(1)):
     if death > 0:
       game[0] = 1
       return np.array([death])
-  return send_choix()
+
+  if game[0] != -1 : #pas en dodo
+    if game[1] < 90 :
+      return send_choix(19)
+    elif game[1] < 180 :
+      return send_choix(30)
+    else :
+      return send_choix()
+  return np.array([-1])
 
 ## A fixer aussi
 
