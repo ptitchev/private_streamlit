@@ -74,15 +74,15 @@ if "is_playing" in st.session_state :
 
         e1, c1, e2, c2, e3, c3, e4 = st.columns([1,3,1,3,1,3,1])
         with c1 :
-            image0 = Image.open('image 1024\\' + str(st.session_state["trois_choix"][0]) + '.png')
+            image0 = Image.open("https://github.com/ptitchev/private_streamlit/blob/3738ead77228e22723a6e81c23cbff6f63ff42e1/image%201024/" + str(st.session_state["trois_choix"][0]) + '.png')
             i0 = st.image(image0)
             b0 = st.button(L_nom[st.session_state["trois_choix"][0]], on_click=play_G0)
         with c2 :
-            image1 = Image.open('image 1024\\' + str(st.session_state["trois_choix"][1]) + '.png')
+            image1 = Image.open("https://github.com/ptitchev/private_streamlit/blob/3738ead77228e22723a6e81c23cbff6f63ff42e1/image%201024/" + str(st.session_state["trois_choix"][1]) + '.png')
             i1 = st.image(image1)
             b1 = st.button(L_nom[st.session_state["trois_choix"][1]], on_click=play_G1)
         with c3 :
-            image2 = Image.open('image 1024\\' + str(st.session_state["trois_choix"][2]) + '.png')
+            image2 = Image.open("https://github.com/ptitchev/private_streamlit/blob/3738ead77228e22723a6e81c23cbff6f63ff42e1/image%201024/" + str(st.session_state["trois_choix"][2]) + '.png')
             i2 = st.image(image2)
             b2 = st.button(L_nom[st.session_state["trois_choix"][2]], on_click=play_G2)
         blank1 = st.write("")
