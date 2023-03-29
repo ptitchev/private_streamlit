@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from game_tools.game_engine import *
 import json
+from PIL import Image
 
 #CSS
 st.markdown(
@@ -45,6 +46,7 @@ def play_G1():
 def play_G2():
     st.session_state["game"], st.session_state["trois_choix"] = player_play(st.session_state["game"], st.session_state["trois_choix"][2])
 
+st.info('Sur téléphone, il est conseillé de passer en mode paysage')
 st.subheader("Jouer à : Démo jeu Chev")
 
 if "is_playing" not in st.session_state:
@@ -72,13 +74,16 @@ if "is_playing" in st.session_state :
 
         e1, c1, e2, c2, e3, c3, e4 = st.columns([1,3,1,3,1,3,1])
         with c1 :
-            #i1 = st.image(image)
+            image0 = Image.open('image 1024\\' + str(st.session_state["trois_choix"][0]) + '.png')
+            i0 = st.image(image0)
             b0 = st.button(L_nom[st.session_state["trois_choix"][0]], on_click=play_G0)
         with c2 :
-            #i2 = st.image(image)
+            image1 = Image.open('image 1024\\' + str(st.session_state["trois_choix"][1]) + '.png')
+            i1 = st.image(image1)
             b1 = st.button(L_nom[st.session_state["trois_choix"][1]], on_click=play_G1)
         with c3 :
-            #i3 = st.image(image)
+            image2 = Image.open('image 1024\\' + str(st.session_state["trois_choix"][2]) + '.png')
+            i2 = st.image(image2)
             b2 = st.button(L_nom[st.session_state["trois_choix"][2]], on_click=play_G2)
         blank1 = st.write("")
         blank2 = st.write("")
