@@ -134,7 +134,7 @@ if check_password():
         #Info sup
 
         with tab4 :
-                        with st.expander("Localisation"):
+            with st.expander("Localisation"):
                 st.write("2406 route de la Grisière, 71870, HURIGNY")
                 st.write("Gares les plus proches : Mâcon Loché TGV ou Mâcon Ville")
                 st.write("Afin de limiter l'impact environnemental de l'évènement, vous pouvez également faire du covoiturage avec les autres participants.")
