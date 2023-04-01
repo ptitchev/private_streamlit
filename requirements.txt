@@ -2,5 +2,3 @@ pandas
 numpy
 streamlit==1.19.0
 PyGithub
-PIL
-json
