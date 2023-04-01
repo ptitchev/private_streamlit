@@ -126,7 +126,8 @@ if check_password():
             col1, col2, col3 = st.columns(3)
             st.info("Reviens le 02/05 pour découvrir le thème")
             with col2:
-                image = Image.open('source\logo.png')
+                response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
+                image = Image.open(BytesIO(response.content))
                 st.image(image, caption='Logo de la 1ere Chev Party')
 
 
@@ -194,20 +195,14 @@ if check_password():
 
                     e1, c1, e2, c2, e3, c3, e4 = st.columns([1,3,1,3,1,3,1])
                     with c1 :
-                        response = requests.get(url + str(st.session_state["trois_choix"][0]) + '.png')
-                        image0 = Image.open(BytesIO(response.content))
                         if im :
                             i0 = st.image(L_image[st.session_state["trois_choix"][0]])
                         b0 = st.button(L_nom[st.session_state["trois_choix"][0]], key = 'B0',on_click=play_G0, use_container_width=True)
                     with c2 :
-                        response = requests.get(url + str(st.session_state["trois_choix"][1]) + '.png')
-                        image1 = Image.open(BytesIO(response.content))
                         if im :
                             i1 = st.image(L_image[st.session_state["trois_choix"][1]])
                         b1 = st.button(L_nom[st.session_state["trois_choix"][1]], key = 'B1',on_click=play_G1, use_container_width=True)
                     with c3 :
-                        response = requests.get(url + str(st.session_state["trois_choix"][2]) + '.png')
-                        image2 = Image.open(BytesIO(response.content))
                         if im :
                             i2 = st.image(L_image[st.session_state["trois_choix"][2]])
                         b2 = st.button(L_nom[st.session_state["trois_choix"][2]], key = 'B2', on_click=play_G2, use_container_width=True)
