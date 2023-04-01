@@ -74,12 +74,12 @@ if check_password():
         with tab1 :
             
 
-            with st.expander("Informations"):
-                st.write("Comme chaque années depuis 2015, pour célébrer mon anniversaire, j'organise un grand weekend festif. Au programme, BBQ, piscine, basket, pétanque et autres activités, mais surtout beaucoup d'alcool (même si c'est pas cool) et de rires.")
-                st.write("J'avoue ça a l'air barbant comme ça, mais pour voir encore plus grand, je m'organise en avance pour nous permettre de mieux festoyer. Si t'es chaud, on se retrouve en région maconnaise pour fêter ça.")
-                st.write("Le site va pas mal évoluer jusqu'à la date de la soirée donc hésite pas à revenir jetter un coup d'oeil.")
-                st.write("Pour info, mon anniv c'est le 2 juin.")
-                st.write("Chev")
+            st.markdown("### Informations")
+            st.markdown("Comme chaque années depuis 2015, pour célébrer mon anniversaire, j'organise un **grand** **weekend** **festif**. Au programme, BBQ, piscine, basket, pétanque et autres activités, mais surtout beaucoup d'**alcool** (même si c'est pas cool) et de rires.")
+            st.markdown("J'avoue ça a l'air barbant comme ça, mais pour voir encore plus grand, je m'organise en avance pour nous permettre de mieux festoyer. Si t'es chaud, on se retrouve en **région** **maconnaise** pour fêter ça.")
+            st.markdown("Le site va pas mal évoluer jusqu'à la date de la soirée donc hésite pas à revenir jetter un coup d'oeil.")
+            st.markdown("Pour info, mon anniv c'est le **2** **juin**.")
+            st.markdown("**Chev**")
 
 
         #Participation
@@ -134,23 +134,22 @@ if check_password():
         #Info sup
 
         with tab4 :
-            with st.expander("Localisation"):
+                        with st.expander("Localisation"):
                 st.write("2406 route de la Grisière, 71870, HURIGNY")
                 st.write("Gares les plus proches : Mâcon Loché TGV ou Mâcon Ville")
                 st.write("Afin de limiter l'impact environnemental de l'évènement, vous pouvez également faire du covoiturage avec les autres participants.")
 
             with st.expander("Principe du Weekend"):
-                st.write("Durant l'ensemble du Weekend, il y aura différents évènements en équipe ou en solo, avec des goodies à la clé, plus d'infos bientôt.")
-                st.write("Merci à toi de lire ces lignes, la curiosité et la réactivité vis à vis de ce site peuvent être utile pour prendre une longueur d'avance sur les autres.")
+                st.write("Durant l'ensemble du Weekend, il y aura différents évènements en équipe ou en solo, avec des goodies à la clé, c'est pour ça qu'il y a un logo.")
+                st.write("Merci à toi de lire ces lignes, la curiosité et la réactivité vis à vis de ce site peuvent être utile pour prendre une longueur d'avance sur les autres. Joue-la comme Hercule Poirot.")
 
 
         #Jeu
 
         with tab5 :
-            st.session_state
 
             if "is_playing" not in st.session_state:
-                st.info('Sur téléphone, il est conseillé de passer en mode paysage')
+                st.info('Sur téléphone, il est conseillé de passer en mode paysage sans les images.')
 
             c1, e1, c2 = st.columns([4,2,2])
             with c1:
@@ -270,10 +269,10 @@ if check_password():
                         with c2 :
                             st.write('')
                             st.write('')
-                            restart = st.button('Restart', on_click=start_G, use_container_width=True, disabled = not st.session_state['RS'])
-
+                            restart = st.button('Rejouer', on_click=start_G, use_container_width=True, disabled = not st.session_state['RS'])
+                        
+                        st.session_state['RS'] = True
                         if champion : 
-                            st.session_state['RS'] = True
                             send_champ(champion, st.session_state["game"][-1])
                             
 
@@ -281,7 +280,7 @@ if check_password():
                         st.write('')
                         st.write('')
                         
-                        df = pd.DataFrame(m_score, columns = dscore['columns'], index = m_champ)
+                        df = pd.DataFrame(m_score, columns = dscore['columns'], index = m_champ).sort_values(by=["Score"], ascending=False, inplace = True)
 
 
                         st.dataframe(df, use_container_width = True)
