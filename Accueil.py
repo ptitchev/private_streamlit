@@ -289,7 +289,17 @@ if check_password():
                         
 
             with st.expander("Règles"):
-                st.write("Comprend tout seul frerot c'est que la démo")
+                st.markdown("### Principe :")
+                st.markdown("Tu arrives à une soirée remplis d'énergie et le ventre à moitié plein.")
+                st.markdown("A chaque fois 3 choix sont proposés, il faut selectionner l'action souhaitée.")
+                st.markdown("En fonction de ton choix, l'heure, ton BPM, ton Energie, ta Soif, ta Défonce et le Fun de la soirée évolue.")
+                st.markdown("### Musique :")
+                st.markdown("A tout moment tu peux changer la musique, ce qui influencera également ton état.")
+                st.markdown("Chaque musique a ses avantages et ses inconvénients, choisi bien en fonction de ton état.")
+                st.markdown("### Objectif :")
+                st.markdown("Premièrement, il faut essayer de survivre à la soirée. Plus la soirée est cool, plus tu marques de point")
+                st.markdown("A la fin de la partie, un score est attribué.")
+                st.markdown("Que le meilleur gagne.")
 
 
 
