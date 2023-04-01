@@ -146,10 +146,10 @@ if check_password():
         #Jeu
 
         with tab5 :
-            st.session_state
+            #st.session_state
 
             if "is_playing" not in st.session_state:
-                st.info('Sur téléphone, il est conseillé de passer en mode paysage')
+                st.info('Sur téléphone, il est conseillé de passer en mode paysage et sans images')
 
             c1, e1, c2 = st.columns([4,2,2])
             with c1:
