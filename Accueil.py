@@ -66,7 +66,7 @@ if check_password():
     if "a" not in st.session_state:
         st.subheader("Bien joué mon reuf : tu es invité(e) à l'anniv de Chev")
 
-        tab1, tab2, tab3, tab4, tab5  = st.tabs(["Présentation", "Participants", "Thème", "Infos supplémentaires", "Jeux"])
+        tab1, tab2, tab3, tab4, tab5  = st.tabs(["Présentation", "Participants", "Jeux", "Thème", "Infos supplémentaires"])
 
 
         #Présentation
@@ -121,7 +121,7 @@ if check_password():
 
         #Theme
 
-        with tab3:
+        with tab4:
             
             col1, col2, col3 = st.columns(3)
             st.info("Reviens le 02/05 pour découvrir le thème")
@@ -133,7 +133,7 @@ if check_password():
 
         #Info sup
 
-        with tab4 :
+        with tab5 :
             with st.expander("Localisation"):
                 st.write("2406 route de la Grisière, 71870, HURIGNY")
                 st.write("Gares les plus proches : Mâcon Loché TGV ou Mâcon Ville")
@@ -146,7 +146,7 @@ if check_password():
 
         #Jeu
 
-        with tab5 :
+        with tab3 :
 
             if "is_playing" not in st.session_state:
                 st.info('Sur téléphone, il est conseillé de passer en mode paysage sans les images.')
