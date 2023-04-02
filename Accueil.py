@@ -16,6 +16,11 @@ st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
 df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
 
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=st.secrets["client_id"],
+                                               client_secret=st.secrets["client_secret"],
+                                               redirect_uri='https://projet-chev.streamlit.app/',
+                                               scope='playlist-modify-public'))
+
 def commit(df, name):
     updated_content = df.to_csv(index=False)
     g = Github(st.secrets["github_token"])
@@ -149,10 +154,7 @@ if check_password():
 
         #Jeu
         with tab5 :
-            sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=st.secrets["client_id"],
-                                               client_secret=st.secrets["client_secret"],
-                                               redirect_uri='https://projet-chev.streamlit.app/',
-                                               scope='playlist-modify-public'))
+
             def check_track_in_playlist(track_id):
                 tracks = sp.playlist_tracks(playlist_id=st.secrets["playlist_id"], fields="items.track.id,total")
                 for item in tracks['items']:
