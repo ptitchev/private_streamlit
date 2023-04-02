@@ -16,10 +16,10 @@ st.set_page_config(page_title="Projet Chev", initial_sidebar_state="collapsed") 
 df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
 df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=st.secrets["client_id"],
-                                               client_secret=st.secrets["client_secret"],
-                                               redirect_uri='https://projet-chev.streamlit.app/',
-                                               scope='playlist-modify-public'))
+#sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=st.secrets["client_id"],
+                                               #client_secret=st.secrets["client_secret"],
+                                               #redirect_uri='https://projet-chev.streamlit.app/',
+                                               #scope='playlist-modify-public'))
 
 def commit(df, name):
     updated_content = df.to_csv(index=False)
@@ -193,19 +193,19 @@ if check_password():
                                 loading="lazy">
                                 </iframe>""", height=164)
 
-            with st.expander('Ajouter des musiques'):
-                search_query = st.text_input('Rechercher une musique sur Spotify')
+            #with st.expander('Ajouter des musiques'):
+                #search_query = st.text_input('Rechercher une musique sur Spotify')
                 #if search_query:
-                results = sp.search(q='Disiz', type='track', limit=10)
-                tracks = results["tracks"]["items"]
-                for track in tracks:
-                    col1, col2 = st.columns([4,1])
-                    with col1:
-                        comp_musique(track["id"])
-                    with col2:
-                        st.write('')
-                        st.write('')
-                        st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
+                #results = sp.search(q='Disiz', type='track', limit=10)
+                #tracks = results["tracks"]["items"]
+                #for track in tracks:
+                    #col1, col2 = st.columns([4,1])
+                    #with col1:
+                        #comp_musique(track["id"])
+                    #with col2:
+                        #st.write('')
+                        #st.write('')
+                        #st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
         with tab3 :
 
             if "is_playing" not in st.session_state:
