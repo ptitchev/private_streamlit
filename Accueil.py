@@ -151,7 +151,7 @@ if check_password():
         with tab5 :
             sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=st.secrets["client_id"],
                                                client_secret=st.secrets["client_secret"],
-                                               redirect_uri='http://localhost:8501/',
+                                               redirect_uri=https://projet-chev.streamlit.app/,
                                                scope='playlist-modify-public'))
             def check_track_in_playlist(track_id):
                 tracks = sp.playlist_tracks(playlist_id=st.secrets["playlist_id"], fields="items.track.id,total")
