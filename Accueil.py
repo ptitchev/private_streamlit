@@ -66,7 +66,7 @@ if check_password():
     if "a" not in st.session_state:
         st.subheader("Bien joué mon reuf : tu es invité(e) à l'anniv de Chev")
 
-        tab1, tab2, tab3, tab4, tab5  = st.tabs(["Présentation", "Participants", "Jeux", "Thème", "Infos supplémentaires"])
+        tab1, tab2, tab3, tab4, tab5, tab6  = st.tabs(["Présentation", "Participants", "Jeux", "Thème", "Musique", "Infos supplémentaires"])
 
 
         #Présentation
@@ -133,7 +133,7 @@ if check_password():
 
         #Info sup
 
-        with tab5 :
+        with tab6 :
             with st.expander("Localisation"):
                 st.write("2406 route de la Grisière, 71870, HURIGNY")
                 st.write("Gares les plus proches : Mâcon Loché TGV ou Mâcon Ville")
@@ -145,7 +145,62 @@ if check_password():
 
 
         #Jeu
+        with tab5 :
+            sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=st.secrets["client_id"],
+                                               client_secret=st.secrets["client_secret"],
+                                               redirect_uri='https://projet-chev.streamlit.app/',
+                                               scope='playlist-modify-public'))
+            def check_track_in_playlist(track_id):
+                tracks = sp.playlist_tracks(playlist_id=st.secrets["playlist_id"], fields="items.track.id,total")
+                for item in tracks['items']:
+                    if item['track'] and item['track']['id'] == track_id:
+                        return True
+                return False
 
+            def add_s(track_id):
+                sp.playlist_add_items(playlist_id, [track_id])
+
+            def comp_musique(id):
+                return components.html("""<iframe 
+                    style="border-radius:12px" 
+                    src="https://open.spotify.com/embed/track/"""+ id + """?utm_source=generator&theme=0" 
+                    width="100%" height="80" frameBorder="0" allowfullscreen="" 
+                    allow="autoplay; 
+                    clipboard-write; 
+                    encrypted-media; 
+                    fullscreen; 
+                    picture-in-picture" 
+                    loading="lazy">
+                    </iframe>""", height=92)
+
+            components.html("""<iframe 
+                                style="border-radius:12px" 
+                                src="https://open.spotify.com/embed/playlist/0n3S3n3mroDR8ffyW9CTEJ?utm_source=generator&theme=0" 
+                                width="100%" 
+                                height="152" 
+                                frameBorder="0" 
+                                allowfullscreen="" 
+                                allow="autoplay; 
+                                clipboard-write; 
+                                encrypted-media; 
+                                fullscreen; 
+                                picture-in-picture" 
+                                loading="lazy">
+                                </iframe>""", height=164)
+
+            with st.expander('Ajouter des musiques'):
+                search_query = st.text_input('Rechercher une musique sur Spotify')
+                if search_query:
+                    results = sp.search(q=search_query, type='track', limit=10)
+                    tracks = results["tracks"]["items"]
+                    for track in tracks:
+                        col1, col2 = st.columns([4,1])
+                        with col1:
+                            comp_musique(track["id"])
+                        with col2:
+                            st.write('')
+                            st.write('')
+                            st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
         with tab3 :
 
             if "is_playing" not in st.session_state:
@@ -300,6 +355,7 @@ if check_password():
                 st.markdown("Premièrement, il faut essayer de survivre à la soirée. Plus la soirée est cool, plus tu marques de point")
                 st.markdown("A la fin de la partie, un score est attribué.")
                 st.markdown("Que le meilleur gagne.")
+                
 
 
 
