@@ -280,7 +280,7 @@ if check_password():
                         st.write('')
                         st.write('')
                         
-                        df = pd.DataFrame(m_score, columns = dscore['columns'], index = m_champ).sort_values(by=["Score"], ascending=False, inplace = True)
+                        df = pd.DataFrame(m_score, columns = dscore['columns'], index = m_champ)
 
 
                         st.dataframe(df, use_container_width = True)
