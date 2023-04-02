@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
+import spotipy
 from github import Github
 from PIL import Image
 import json
