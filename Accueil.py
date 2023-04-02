@@ -86,8 +86,8 @@ if check_password():
 
         with tab2:
             
-            st.dataframe(df_shown, use_container_width= True)
             st.warning("Remplis l'inscription si ton nom n'apparait pas", icon="⚠️")
+            st.dataframe(df_shown, use_container_width= True)
             with st.expander("Inscription"):
                 with st.form("Inscription", clear_on_submit = True):
                     st.write('Remplis-moi ça :')
