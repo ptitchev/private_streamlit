@@ -67,7 +67,30 @@ def start_G():
     st.session_state["musique"] = 0
     if 'RS' in st.session_state :
         del st.session_state["RS"]
+        
+        
+def check_track_in_playlist(track_id):
+    tracks = sp.playlist_tracks(playlist_id=st.secrets["playlist_id"], fields="items.track.id,total")
+    for item in tracks['items']:
+        if item['track'] and item['track']['id'] == track_id:
+            return True
+    return False
 
+def add_s(track_id):
+    sp.playlist_add_items(playlist_id, [track_id])
+
+def comp_musique(id):
+    return components.html("""<iframe 
+                    style="border-radius:12px" 
+                    src="https://open.spotify.com/embed/track/"""+ id + """?utm_source=generator&theme=0" 
+                    width="100%" height="80" frameBorder="0" allowfullscreen="" 
+                    allow="autoplay; 
+                    clipboard-write; 
+                    encrypted-media; 
+                    fullscreen; 
+                    picture-in-picture" 
+                    loading="lazy">
+                    </iframe>""", height=92)
     
 if check_password():
 
@@ -154,29 +177,6 @@ if check_password():
 
         #Jeu
         with tab5 :
-
-            def check_track_in_playlist(track_id):
-                tracks = sp.playlist_tracks(playlist_id=st.secrets["playlist_id"], fields="items.track.id,total")
-                for item in tracks['items']:
-                    if item['track'] and item['track']['id'] == track_id:
-                        return True
-                return False
-
-            def add_s(track_id):
-                sp.playlist_add_items(playlist_id, [track_id])
-
-            def comp_musique(id):
-                return components.html("""<iframe 
-                    style="border-radius:12px" 
-                    src="https://open.spotify.com/embed/track/"""+ id + """?utm_source=generator&theme=0" 
-                    width="100%" height="80" frameBorder="0" allowfullscreen="" 
-                    allow="autoplay; 
-                    clipboard-write; 
-                    encrypted-media; 
-                    fullscreen; 
-                    picture-in-picture" 
-                    loading="lazy">
-                    </iframe>""", height=92)
 
             components.html("""<iframe 
                                 style="border-radius:12px" 
