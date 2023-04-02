@@ -18,7 +18,7 @@ df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streaml
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=st.secrets["client_id"],
                                                client_secret=st.secrets["client_secret"],
-                                               redirect_uri='https://projet-chev.streamlit.app/',
+                                               redirect_uri='http://localhost:8000/callback',
                                                scope='playlist-modify-public'))
 
 def commit(df, name):
