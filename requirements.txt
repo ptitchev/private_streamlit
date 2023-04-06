@@ -2,4 +2,4 @@ pandas
 numpy
 streamlit==1.19.0
 PyGithub
-spotipy
+spotipy==2.13.0
