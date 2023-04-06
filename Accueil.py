@@ -26,8 +26,7 @@ def get_spotify_oauth():
         client_secret=client_secret,
         username = 'ptitchev',
         redirect_uri='https://projet-chev.streamlit.app/callback',
-        scope= ['playlist-modify-public',"user-library-read"],
-        open_browser=False    
+        scope= ['playlist-modify-public',"user-library-read"]   
     )
 sp_oauth = get_spotify_oauth()  # récupère l'objet SpotifyOAuth
 
