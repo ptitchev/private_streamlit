@@ -16,12 +16,6 @@ st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
 df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
 
-
-sp = spotipy.Spotify(SpotifyOAuth(client_id=st.secrets["client_id"],
-                                               client_secret=st.secrets["client_secret"],
-                                               username ='ptitchev',
-                                               redirect_uri='https://projet-chev.streamlit.app/callback',
-                                               scope='playlist-modify-public'))
 @st.cache(allow_output_mutation=True)
 def get_spotify_oauth():
     return SpotifyOAuth(
