@@ -29,9 +29,10 @@ def get_spotify_oauth():
         client_secret=st.secrets["client_secret"],
         username = 'ptitchev',
         redirect_uri='https://projet-chev.streamlit.app/callback',
-        scope= 'playlist-modify-public',
+        scope= ['playlist-modify-public',"user-library-read"],
         open_browser=False    
     )
+ sp_oauth = get_spotify_oauth() 
 
 @st.cache(allow_output_mutation=True)
 def get_spotify_client():
@@ -182,7 +183,7 @@ if True : #check_password():
                 st.write("Merci à toi de lire ces lignes, la curiosité et la réactivité vis à vis de ce site peuvent être utile pour prendre une longueur d'avance sur les autres. Joue-la comme Hercule Poirot.")
 
         with tab5 :
-            sp_oauth = get_spotify_oauth() 
+            
             components.html("""<iframe 
                                 style="border-radius:12px" 
                                 src="https://open.spotify.com/embed/playlist/0n3S3n3mroDR8ffyW9CTEJ?utm_source=generator&theme=0" 
