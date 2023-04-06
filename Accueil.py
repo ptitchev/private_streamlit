@@ -145,7 +145,7 @@ if check_password():
                     with mid :
                         submitted = st.form_submit_button("Valider", use_container_width  = True)
         if submitted :
-            #add_data_rep(idp, we1, contact, info_contact, hype, ptheme)
+            add_data_rep(idp, we1, contact, info_contact, hype, ptheme)
             st.success("Let's go ! Je te tiens au courant pour la suite")
             st.balloons()
 
