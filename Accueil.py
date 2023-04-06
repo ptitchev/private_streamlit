@@ -30,7 +30,13 @@ def get_spotify_oauth():
         open_browser=False    
     )
   
-sp_oauth = get_spotify_oauth() 
+sp_oauth = get_spotify_oauth()  # récupère l'objet SpotifyOAuth
+
+if sp_oauth._is_token_expired(sp_oauth.get_cached_token()):  # vérifie si le jeton est expiré
+    token_info = sp_oauth.refresh_access_token(sp_oauth.get_cached_token()['refresh_token'])  # rafraîchit le jeton
+    access_token = token_info['access_token']  # récupère le nouveau jeton d'accès
+else:
+    access_token = sp_oauth.get_cached_token()['access_token']
 
 @st.cache(allow_output_mutation=True)
 def get_spotify_client():
