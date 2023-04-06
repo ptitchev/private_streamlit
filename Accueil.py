@@ -19,7 +19,7 @@ df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streaml
 client_id=st.secrets["client_id"]
 client_secret = st.secrets["client_secret"]
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data(allow_output_mutation=True)
 def get_spotify_oauth():
     return SpotifyOAuth(
         client_id=client_id,
@@ -30,11 +30,11 @@ def get_spotify_oauth():
     )
 sp_oauth = get_spotify_oauth()  # récupère l'objet SpotifyOAuth
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data(allow_output_mutation=True)
 def get_spotify_client():
     return spotipy.Spotify(auth_manager=sp_oauth)
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data(allow_output_mutation=True)
 def handle_spotify_callback():
     uri = st.experimental_get_query_params()["code"][0]
     token_info = sp_oauth.get_access_token(uri)
