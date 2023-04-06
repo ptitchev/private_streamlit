@@ -21,6 +21,8 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=st.secrets["client_id"]
                                                redirect_uri='https://projet-chev.streamlit.app/callback',
                                                scope='playlist-modify-public'))
 
+print(sp)
+
 
 def commit(df, name):
     updated_content = df.to_csv(index=False)
