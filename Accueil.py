@@ -9,6 +9,7 @@ from style.css import hide_menu_style, hide_sidebar_style
 from game_tools.game_engine import *
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+import _thread
 
 st.set_page_config(page_title="Projet Chev", initial_sidebar_state="collapsed") #configue page (Nome et nav menu fermé)
 st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
