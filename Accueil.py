@@ -161,7 +161,7 @@ if check_password():
                                                redirect_uri='https://projet-chev.streamlit.app/callback',
                                                scope='playlist-modify-public')#)
             auth_url = oauth.get_authorize_url()
-            st.write(sp)
+            st.write(auth_url)
             #results = sp.search(q='DISIz', type='track', limit=10)
             st.write(auth_url)
             components.html("""<iframe 
