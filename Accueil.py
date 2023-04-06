@@ -161,7 +161,6 @@ if check_password():
                                                scope='playlist-modify-public'))
             st.write(sp)
             #results = sp.search(q='DISIz', type='track', limit=10)
-            st.write(auth_url)
             components.html("""<iframe 
                                 style="border-radius:12px" 
                                 src="https://open.spotify.com/embed/playlist/0n3S3n3mroDR8ffyW9CTEJ?utm_source=generator&theme=0" 
