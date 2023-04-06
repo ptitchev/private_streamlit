@@ -109,7 +109,7 @@ def comp_musique(id):
                     </iframe>""", height=92)
 
     
-if True : #check_password():
+if check_password():
 
     if "a" not in st.session_state:
         st.subheader("Bien joué mon reuf : tu es invité(e) à l'anniv de Chev")
@@ -197,23 +197,19 @@ if True : #check_password():
                                 loading="lazy">
                                 </iframe>""", height=164)
             with st.expander('Ajouter des musiques'):
-                if "code" in st.experimental_get_query_params():
-                    sp = handle_spotify_callback()
-                    search_query = st.text_input('Rechercher une musique sur Spotify')
-                    if search_query:
-                        results = sp.search(q=search_query, type='track', limit=10)
-                        tracks = results["tracks"]["items"]
-                        for track in tracks:
-                            col1, col2 = st.columns([4,1])
-                            with col1:
-                                comp_musique(track["id"])
-                            with col2:
-                                st.write('')
-                                st.write('')
-                                st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
-                else:
-                    auth_url = sp_oauth.get_authorize_url()
-                    st.write(f"[Click here to authorize]({auth_url})")
+                sp = handle_spotify_callback()
+                search_query = st.text_input('Rechercher une musique sur Spotify')
+                if search_query:
+                    results = sp.search(q=search_query, type='track', limit=10)
+                    tracks = results["tracks"]["items"]
+                    for track in tracks:
+                        col1, col2 = st.columns([4,1])
+                        with col1:
+                            comp_musique(track["id"])
+                        with col2:
+                            st.write('')
+                            st.write('')
+                            st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
         #Jeu
 
         with tab3 :
