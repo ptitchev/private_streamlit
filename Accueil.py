@@ -16,11 +16,6 @@ st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
 df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=st.secrets["client_id"],
-                                               client_secret=st.secrets["client_secret"],
-                                               redirect_uri='https://projet-chev.streamlitapp.io/callback',#https://projet-chev.streamlit.app/callback
-                                               scope='playlist-modify-public'))
-
 def commit(df, name):
     updated_content = df.to_csv(index=False)
     g = Github(st.secrets["github_token"])
@@ -159,9 +154,16 @@ if check_password():
                 st.write("Merci à toi de lire ces lignes, la curiosité et la réactivité vis à vis de ce site peuvent être utile pour prendre une longueur d'avance sur les autres. Joue-la comme Hercule Poirot.")
 
         with tab5 :
+            #sp = spotipy.Spotify(
+            oauth = SpotifyOAuth(client_id=st.secrets["client_id"],
+                                               client_secret=st.secrets["client_secret"],
+                                               username ='ptitchev',
+                                               redirect_uri='https://projet-chev.streamlit.app/callback',
+                                               scope='playlist-modify-public'))
+            auth_url = oauth.get_authorize_url()
             st.write(sp)
-            results = sp.search(q='DISIz', type='track', limit=10)
-            st.write(results)
+            #results = sp.search(q='DISIz', type='track', limit=10)
+            st.write(auth_url)
             components.html("""<iframe 
                                 style="border-radius:12px" 
                                 src="https://open.spotify.com/embed/playlist/0n3S3n3mroDR8ffyW9CTEJ?utm_source=generator&theme=0" 
