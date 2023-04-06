@@ -160,6 +160,8 @@ if check_password():
 
         with tab5 :
             st.write(sp)
+            results = sp.search(q=search_query, type='track', limit=10)
+            st.write(results)
             components.html("""<iframe 
                                 style="border-radius:12px" 
                                 src="https://open.spotify.com/embed/playlist/0n3S3n3mroDR8ffyW9CTEJ?utm_source=generator&theme=0" 
