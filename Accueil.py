@@ -159,7 +159,7 @@ if check_password():
                                                client_secret=st.secrets["client_secret"],
                                                username ='ptitchev',
                                                redirect_uri='https://projet-chev.streamlit.app/callback',
-                                               scope='playlist-modify-public'))
+                                               scope='playlist-modify-public')#)
             auth_url = oauth.get_authorize_url()
             st.write(sp)
             #results = sp.search(q='DISIz', type='track', limit=10)
