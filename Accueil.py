@@ -29,7 +29,7 @@ def get_spotify_oauth():
         scope= ['playlist-modify-public',"user-library-read"],
         open_browser=False    
     )
-sp_oauth = get_spotify_oauth()  # récupère l'objet SpotifyOAuth  
+sp_oauth = get_spotify_oauth()  # récupère l'objet SpotifyOAuth
 
 @st.cache(allow_output_mutation=True)
 def get_spotify_client():
