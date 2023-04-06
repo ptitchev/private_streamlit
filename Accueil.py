@@ -29,7 +29,7 @@ def get_spotify_oauth():
         client_secret=st.secrets["client_secret"],
         username = 'ptitchev',
         redirect_uri='https://projet-chev.streamlit.app/callback',
-        scope= ['playlist-modify-public',"user-library-read"],
+        scope= 'playlist-modify-public',
         open_browser=False    
     )
 
