@@ -110,7 +110,7 @@ def comp_musique(id):
                     </iframe>""", height=92)
 
     
-if check_password():
+if True : #check_password():
 
     if "a" not in st.session_state:
         st.subheader("Bien joué mon reuf : tu es invité(e) à l'anniv de Chev")
