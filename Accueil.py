@@ -154,14 +154,12 @@ if check_password():
                 st.write("Merci à toi de lire ces lignes, la curiosité et la réactivité vis à vis de ce site peuvent être utile pour prendre une longueur d'avance sur les autres. Joue-la comme Hercule Poirot.")
 
         with tab5 :
-            #sp = spotipy.Spotify(
-            oauth = SpotifyOAuth(client_id=st.secrets["client_id"],
+            sp = spotipy.Spotify(SpotifyOAuth(client_id=st.secrets["client_id"],
                                                client_secret=st.secrets["client_secret"],
                                                username ='ptitchev',
                                                redirect_uri='https://projet-chev.streamlit.app/callback',
-                                               scope='playlist-modify-public')#)
-            auth_url = oauth.get_authorize_url()
-            st.write(auth_url)
+                                               scope='playlist-modify-public'))
+            st.write(sp)
             #results = sp.search(q='DISIz', type='track', limit=10)
             st.write(auth_url)
             components.html("""<iframe 
@@ -180,17 +178,17 @@ if check_password():
                                 </iframe>""", height=164)
             with st.expander('Ajouter des musiques'):
                 search_query = st.text_input('Rechercher une musique sur Spotify')
-                if search_query:
-                    results = sp.search(q=search_query, type='track', limit=10)
-                    tracks = results["tracks"]["items"]
-                    for track in tracks:
-                        col1, col2 = st.columns([4,1])
-                        with col1:
-                            comp_musique(track["id"])
-                        with col2:
-                            st.write('')
-                            st.write('')
-                            st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
+                #if search_query:
+                    #results = sp.search(q=search_query, type='track', limit=10)
+                    #tracks = results["tracks"]["items"]
+                    #for track in tracks:
+                        #col1, col2 = st.columns([4,1])
+                        #with col1:
+                            #comp_musique(track["id"])
+                        #with col2:
+                            #st.write('')
+                            #st.write('')
+                            #st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
         #Jeu
 
         with tab3 :
