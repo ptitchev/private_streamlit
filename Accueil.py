@@ -19,6 +19,9 @@ df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streaml
 client_id=st.secrets["client_id"]
 client_secret = st.secrets["client_secret"]
 
+SPOTIPY_SCOPE = "user-library-read,playlist-modify-public"
+scope = " ".join(SPOTIPY_SCOPE)
+
 @st.cache(allow_output_mutation=True)
 def get_spotify_oauth():
     return SpotifyOAuth(
