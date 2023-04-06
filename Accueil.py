@@ -9,7 +9,6 @@ from style.css import hide_menu_style, hide_sidebar_style
 from game_tools.game_engine import *
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-import _thread
 
 st.set_page_config(page_title="Projet Chev", initial_sidebar_state="collapsed") #configue page (Nome et nav menu fermé)
 st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
@@ -17,11 +16,14 @@ st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
 df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
 
-@st.cache(hash_funcs={_thread.RLock: lambda _: None}, allow_output_mutation=True)
+client_id=st.secrets["client_id"]
+client_secret = st.secrets["client_secret"]
+
+@st.cache(allow_output_mutation=True)
 def get_spotify_oauth():
     return SpotifyOAuth(
-        client_id=st.secrets["client_id"],
-        client_secret=st.secrets["client_secret"],
+        client_id=client_id,
+        client_secret=client_secret,
         username = 'ptitchev',
         redirect_uri='https://projet-chev.streamlit.app/callback',
         scope= ['playlist-modify-public',"user-library-read"],
