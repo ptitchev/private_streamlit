@@ -187,7 +187,7 @@ if check_password():
                                 loading="lazy">
                                 </iframe>""", height=164)
             with st.expander('Ajouter des musiques'):
-                if "code" in st.experimental_get_query_params():
+                if True :#"code" in st.experimental_get_query_params():
                     sp = handle_spotify_callback()
                     def check_track_in_playlist(track_id):
                         tracks = sp.playlist_tracks(playlist_id=st.secrets["playlist_id"], fields="items.track.id,total")
