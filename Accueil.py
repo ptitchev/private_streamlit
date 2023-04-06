@@ -16,7 +16,7 @@ st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
 df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
 
-@st.cache(allow_output_mutation=True)
+@st.cache(hash_funcs={_thread.RLock: lambda _: None}, allow_output_mutation=True)
 def get_spotify_oauth():
     return SpotifyOAuth(
         client_id=st.secrets["client_id"],
