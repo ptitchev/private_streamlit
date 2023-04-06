@@ -195,6 +195,9 @@ if check_password():
                                 loading="lazy">
                                 </iframe>""", height=164)
             with st.expander('Ajouter des musiques'):
+                if "code" not in st.experimental_get_query_params():
+                    auth_url = sp_oauth.get_authorize_url()
+                    st.write(f"[Débugger]({auth_url})")
                 sp = handle_spotify_callback()
                 search_query = st.text_input('Rechercher une musique sur Spotify')
                 if search_query:
