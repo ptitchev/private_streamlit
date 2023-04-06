@@ -212,6 +212,9 @@ if check_password():
                                 st.write('')
                                 st.write('')
                                 st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
+                else:
+                    auth_url = sp_oauth.get_authorize_url()
+                    st.write(f"[Recharger]({auth_url})")
                            
         #Jeu
 
