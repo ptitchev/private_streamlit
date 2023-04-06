@@ -19,9 +19,6 @@ df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streaml
 client_id=st.secrets["client_id"]
 client_secret = st.secrets["client_secret"]
 
-SPOTIPY_SCOPE = "user-library-read,playlist-modify-public"
-scope = " ".join(SPOTIPY_SCOPE)
-
 @st.cache(allow_output_mutation=True)
 def get_spotify_oauth():
     return SpotifyOAuth(
@@ -29,9 +26,11 @@ def get_spotify_oauth():
         client_secret=client_secret,
         username = 'ptitchev',
         redirect_uri='https://projet-chev.streamlit.app/callback',
-        scope= 'playlist-modify-public' 
+        scope= ['playlist-modify-public',"user-library-read"],
+        open_browser=False    
     )
-sp_oauth = get_spotify_oauth()  # récupère l'objet SpotifyOAuth
+  
+sp_oauth = get_spotify_oauth() 
 
 @st.cache(allow_output_mutation=True)
 def get_spotify_client():
@@ -198,23 +197,19 @@ if check_password():
                                 loading="lazy">
                                 </iframe>""", height=164)
             with st.expander('Ajouter des musiques'):
-                if "code" not in st.experimental_get_query_params():
-                    auth_url = sp_oauth.get_authorize_url()
-                    st.write(f"[Débugger]({auth_url})")
-                else :
-                    sp = handle_spotify_callback()
-                    search_query = st.text_input('Rechercher une musique sur Spotify')
-                    if search_query:
-                        results = sp.search(q=search_query, type='track', limit=10)
-                        tracks = results["tracks"]["items"]
-                        for track in tracks:
-                            col1, col2 = st.columns([4,1])
-                            with col1:
-                                comp_musique(track["id"])
-                            with col2:
-                                st.write('')
-                                st.write('')
-                                st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
+                sp = handle_spotify_callback()
+                search_query = st.text_input('Rechercher une musique sur Spotify')
+                if search_query:
+                    results = sp.search(q=search_query, type='track', limit=10)
+                    tracks = results["tracks"]["items"]
+                    for track in tracks:
+                        col1, col2 = st.columns([4,1])
+                        with col1:
+                            comp_musique(track["id"])
+                        with col2:
+                            st.write('')
+                            st.write('')
+                            st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
         #Jeu
 
         with tab3 :
