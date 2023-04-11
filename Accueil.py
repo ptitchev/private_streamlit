@@ -9,6 +9,8 @@ from style.css import hide_menu_style, hide_sidebar_style
 from game_tools.game_engine import *
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+from spotipy.cache_handler import CacheHandler
+import requests
 
 st.set_page_config(page_title="Projet Chev", initial_sidebar_state="collapsed") #configue page (Nome et nav menu fermé)
 st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
@@ -16,32 +18,52 @@ st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
 df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
 
+class CacheGitHandler(CacheHandler):
+    def __init__(self,
+                git_token,
+                git_user='ptitchev',
+                git_repo="private_streamlit",
+                git_path="cache_file.json"):
+        self.git_user = git_user
+        self.git_repo = git_repo
+        self.git_path = git_path
+        self.git_token = git_token
+    def get_cached_token(self):
+        url = "https://raw.githubusercontent.com/" + self.git_user + '/' + self.git_repo + '/main/' + self.git_path
+        response = requests.get(url)
+        token_info = json.loads(response.text)
+        return token_info
+    def save_token_to_cache(self, token_info):
+        json_data_sha = json.dumps(token_info).encode("utf-8")
+        g = Github(self.git_token)
+        repo = g.get_user().get_repo(self.git_repo)
+        file = repo.get_contents("/" + self.git_path)
+        repo.update_file(self.git_path, 'Updated Spotify token', json_data_sha, file.sha)
+        
+cache_handler = CacheGitHandler('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')
+
 client_id=st.secrets["client_id"]
 client_secret = st.secrets["client_secret"]
+redirect_uri='https://ptitchev-streamlit-spotify-test-91ucwx.streamlit.app'
+scope = ['playlist-modify-public',"user-library-read"]
+playlist_id = st.secrets["playlist_id"]
+github_token = st.secrets["github_token"]
 
-@st.cache(allow_output_mutation=True)
-def get_spotify_oauth():
-    return SpotifyOAuth(
-        client_id=client_id,
-        client_secret=client_secret,
-        username = 'ptitchev',
-        redirect_uri='https://projet-chev.streamlit.app/callback',
-        scope= ['playlist-modify-public',"user-library-read"],
-        open_browser=False    
-    )
-  
-sp_oauth = get_spotify_oauth() 
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = client_id,
+                                                client_secret = client_secret,
+                                                redirect_uri = redirect_uri,
+                                                cache_handler = cache_handler,
+                                                scope=scope))
 
-@st.cache(allow_output_mutation=True)
-def get_spotify_client():
-    return spotipy.Spotify(auth_manager=sp_oauth)
-
-@st.cache(allow_output_mutation=True)
-def handle_spotify_callback():
-    uri = st.experimental_get_query_params()["code"][0]
-    token_info = sp_oauth.get_access_token(uri)
-    sp = spotipy.Spotify(auth=token_info["access_token"])
-    return sp
+def check_track_in_playlist(track_id):
+    tracks = sp.playlist_tracks(playlist_id=playlist_id, fields="items.track.id,total") 
+    for item in tracks['items']:
+        if item['track'] and item['track']['id'] == track_id:
+            return True
+        return False
+    
+def add_s(track_id):
+    sp.playlist_add_items(playlist_id, [track_id])
 
 def commit(df, name):
     updated_content = df.to_csv(index=False)
@@ -97,7 +119,6 @@ def comp_musique(id):
                     picture-in-picture" 
                     loading="lazy">
                     </iframe>""", height=92)
-
     
 if check_password():
 
@@ -187,34 +208,18 @@ if check_password():
                                 loading="lazy">
                                 </iframe>""", height=164)
             with st.expander('Ajouter des musiques'):
-                if True :#"code" in st.experimental_get_query_params():
-                    sp = handle_spotify_callback()
-                    def check_track_in_playlist(track_id):
-                        tracks = sp.playlist_tracks(playlist_id=st.secrets["playlist_id"], fields="items.track.id,total")
-                        for item in tracks['items']:
-                            if item['track'] and item['track']['id'] == track_id:
-                                return True
-                            return False
-                    def add_s(track_id):
-                        sp.playlist_add_items(st.secrets["playlist_id"], [track_id])
-                    
-                    search_query = st.text_input('Rechercher une musique sur Spotify')
-                    
-                    if search_query:
-                        st.write('Encore des soucis techniques lequipe')
-                        results = sp.search(q=search_query, type='track', limit=10)
-                        tracks = results["tracks"]["items"]
-                        for track in tracks:
-                            col1, col2 = st.columns([4,1])
-                            with col1:
-                                comp_musique(track["id"])
-                            with col2:
-                                st.write('')
-                                st.write('')
-                                st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
-                else:
-                    auth_url = sp_oauth.get_authorize_url()
-                    st.write(f"[Recharger]({auth_url})")
+                search_query = st.text_input('Rechercher une musique sur Spotify')
+                if search_query:
+                    results = sp.search(q=search_query, type='track', limit=10)
+                    tracks = results["tracks"]["items"]
+                    for track in tracks:
+                        col1, col2 = st.columns([4,1])
+                        with col1:
+                            comp_musique(track["id"])
+                        with col2:
+                            st.write('')
+                            st.write('')
+                            st.button('Ajouter', key = track["id"], on_click=lambda track_id=track["id"]: add_s(track_id), disabled=check_track_in_playlist(track["id"]), use_container_width=True)
                            
         #Jeu
 
