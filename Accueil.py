@@ -40,7 +40,7 @@ class CacheGitHandler(CacheHandler):
         file = repo.get_contents("/" + self.git_path)
         repo.update_file(self.git_path, 'Updated Spotify token', json_data_sha, file.sha)
         
-cache_handler = CacheGitHandler('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')
+cache_handler = CacheGitHandler(st.secrets["github_token"])
 
 client_id=st.secrets["client_id"]
 client_secret = st.secrets["client_secret"]
