@@ -354,7 +354,6 @@ if check_password():
                         st.dataframe(df, use_container_width = True)
                         st.write("")
                         st.write("")
-                    st.write(m_score)
                         
 
             with st.expander("Règles"):
