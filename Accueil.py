@@ -11,6 +11,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.cache_handler import CacheHandler
 import requests
+import urllib.request
 
 st.set_page_config(page_title="Projet Chev", initial_sidebar_state="collapsed") #configue page (Nome et nav menu fermé)
 st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
@@ -127,13 +128,19 @@ if check_password():
         tab1, tab2, tab3, tab4, tab5, tab6  = st.tabs(["Présentation", "Participants", "Jeux", "Thème", "Musique", "Infos supplémentaires"])
 
         with tab1 :
+            video_url = "https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/vid_pres.mp4"
+            video_file = urllib.request.urlopen(video_url)
+            video_bytes = video_file.read()
             st.markdown("### Informations")
-            st.markdown("Comme chaque années depuis 2015, pour célébrer mon anniversaire, j'organise un **grand** **weekend** **festif**. Au programme, BBQ, piscine, basket, pétanque et autres activités, mais surtout beaucoup d'**alcool** (même si c'est pas cool) et de rires.")
-            st.markdown("J'avoue ça a l'air barbant comme ça, mais pour voir encore plus grand, je m'organise en avance pour nous permettre de mieux festoyer. Si t'es chaud, on se retrouve en **région** **maconnaise** pour fêter ça.")
-            st.markdown("Le site va pas mal évoluer jusqu'à la date de la soirée donc hésite pas à revenir jetter un coup d'oeil.")
-            st.markdown("Pour info, mon anniv c'est le **2** **juin**.")
-            st.markdown("**Chev**")
-
+            c1, c2 = st.columns(2)
+            with c1:
+                st.markdown("Comme chaque années depuis 2015, pour célébrer mon anniversaire, j'organise un **grand** **weekend** **festif**. Au programme, BBQ, piscine, basket, pétanque et autres activités, mais surtout beaucoup d'**alcool** (même si c'est pas cool) et de rires.")
+                st.markdown("J'avoue ça a l'air barbant comme ça, mais pour voir encore plus grand, je m'organise en avance pour nous permettre de mieux festoyer. Si t'es chaud, on se retrouve en **région** **maconnaise** pour fêter ça.")
+                st.markdown("Le site va pas mal évoluer jusqu'à la date de la soirée donc hésite pas à revenir jetter un coup d'oeil.")
+                st.markdown("Pour info, mon anniv c'est le **2** **juin**.")
+                st.markdown("**Chev**")
+            with c2:
+                st.video(video_bytes)
 
         with tab2:
             st.dataframe(df_shown, use_container_width= True)
