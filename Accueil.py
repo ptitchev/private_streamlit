@@ -13,7 +13,10 @@ from spotipy.cache_handler import CacheHandler
 import requests
 import urllib.request
 
-st.set_page_config(page_title="Projet Chev", initial_sidebar_state="collapsed") #configue page (Nome et nav menu fermé)
+response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
+image = Image.open(BytesIO(response.content))
+
+st.set_page_config(page_title="Projet Chev",page_icon = image, initial_sidebar_state="collapsed") #configue page (Nome et nav menu fermé)
 st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 
 df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
@@ -125,7 +128,7 @@ if check_password():
 
     if "a" not in st.session_state:
         st.subheader("Bien joué mon reuf : tu es invité(e) à l'anniv de Chev")
-        tab1, tab2, tab3, tab4, tab5, tab6  = st.tabs(["Présentation", "Participants", "Jeux", "Thème", "Musique", "Infos supplémentaires"])
+        tab1, tab2, tab3, tab4  = st.tabs(["Présentation", "Infos", "Jeux", "Musique"])
 
         with tab1 :
             video_url = "https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/vid_pres.mp4"
@@ -142,10 +145,15 @@ if check_password():
             with c2:
                 st.video(video_bytes)
 
-        with tab2:
-            st.dataframe(df_shown, use_container_width= True)
-            st.warning("Remplis l'inscription si ton nom n'apparait pas", icon="⚠️")
-            with st.expander("Inscription"):
+        with tab2: #Infos
+            exp_th = st.expander('Thème')
+            with exp_th:
+                st.markdown('Pour ce weekend, le thème sera **"Superstar"**.')
+                st.markdown("Rappeur, sportif, aventurier ou autre, réveille l'icone qui sommeille en toi pour impressionner les autres.")
+                st.markdown('Soit créatif et flex, tu en seras récompensé.')
+            with st.expander("Participants"):
+                st.warning("Remplis l'inscription si ton nom n'apparait pas", icon="⚠️")
+                st.dataframe(df_shown, use_container_width= True)     
                 with st.form("Inscription", clear_on_submit = True):
                     st.write('Remplis-moi ça :')
                     st.write(" ")
@@ -170,35 +178,27 @@ if check_password():
                     blank1, mid, blank2 = st.columns(3)
                     with mid :
                         submitted = st.form_submit_button("Valider", use_container_width  = True)
+            with st.expander("Principe du Weekend"):
+                st.markdown("Tu es convié à réaliser **Les 12 boulots de Chev**")
+                st.markdown("Durant l'ensemble du Weekend, il y aura différents évènements en équipe ou en solo, avec des goodies à la clé, c'est pour ça qu'il y a un logo.")
+                st.markdown("Merci à toi de lire ces lignes, la curiosité et la réactivité vis à vis de ce site peuvent être utile pour prendre une longueur d'avance sur les autres. Joue-la comme Hercule Poirot.")
+            with st.expander("Localisation"):
+                st.markdown("2406 route de la Grisière, 71870, HURIGNY")
+                st.markdown("Gares les plus proches : Mâcon Loché TGV ou Mâcon Ville")
+                st.markdown("Afin de limiter l'impact environnemental de l'évènement, vous pouvez également faire du covoiturage avec les autres participants.")
+            with st.expander("Le starter pack à prévoir"):
+                st.markdown("1. Ton meilleur **outfit** de superstar.")
+                st.markdown("2. Maillot de bain et serviette pour profiter au mieux de la **piscine**.")
+                st.markdown('3. Je te conseille de prévoir des **affaires de sport**/de rechange.')
+                st.markdown('4. Si possible, **matelats** et **sac de couchage** sont les bienvenues. Même une tente pour les plus aventuriers.')
+                st.markdown("En supplément, chaque goutte d'alcool sera trouver preneur !")
+
         if submitted :
             add_data_rep(idp, we1, contact, info_contact, hype, ptheme)
             st.success("Let's go ! Je te tiens au courant pour la suite")
             st.balloons()
 
-
-        #Theme
-
-        with tab4:
-            col1, col2, col3 = st.columns(3)
-            st.info("Reviens le 02/05 pour découvrir le thème")
-            with col2:
-                response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
-                image = Image.open(BytesIO(response.content))
-                st.image(image, caption='Logo de la 1ere Chev Party')
-
-
-        #Info sup
-
-        with tab6 :
-            with st.expander("Localisation"):
-                st.write("2406 route de la Grisière, 71870, HURIGNY")
-                st.write("Gares les plus proches : Mâcon Loché TGV ou Mâcon Ville")
-                st.write("Afin de limiter l'impact environnemental de l'évènement, vous pouvez également faire du covoiturage avec les autres participants.")
-            with st.expander("Principe du Weekend"):
-                st.write("Durant l'ensemble du Weekend, il y aura différents évènements en équipe ou en solo, avec des goodies à la clé, c'est pour ça qu'il y a un logo.")
-                st.write("Merci à toi de lire ces lignes, la curiosité et la réactivité vis à vis de ce site peuvent être utile pour prendre une longueur d'avance sur les autres. Joue-la comme Hercule Poirot.")
-
-        with tab5 :
+        with tab4 :
             
             components.html("""<iframe 
                                 style="border-radius:12px" 
