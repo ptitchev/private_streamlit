@@ -48,7 +48,7 @@ cache_handler = CacheGitHandler(st.secrets["github_token"])
 
 client_id=st.secrets["client_id"]
 client_secret = st.secrets["client_secret"]
-redirect_uri='https://ptitchev-streamlit-spotify-test-91ucwx.streamlit.app'
+redirect_uri="https://projet-chev.streamlit.app/" #'https://ptitchev-streamlit-spotify-test-91ucwx.streamlit.app'
 scope = ['playlist-modify-public',"user-library-read"]
 playlist_id = st.secrets["playlist_id"]
 github_token = st.secrets["github_token"]
