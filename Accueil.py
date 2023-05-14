@@ -17,7 +17,7 @@ response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/privat
 image = Image.open(BytesIO(response.content))
 
 st.set_page_config(page_title="Projet Chev",page_icon = image, initial_sidebar_state="collapsed") #configue page (Nome et nav menu fermé)
-st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
+#st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 
 df_shown = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/ds.csv')
 df_rep = pd.read_csv('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/data/dr.csv')
