@@ -32,7 +32,7 @@ def _invit():
 def spawn_invit():
     c1, e1, c2, e2, c3 = st.columns([3,1,6,1,3])
     with c1:
-        response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
+        response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
         image = Image.open(BytesIO(response.content))
         st.image(image)
     with c2 :
@@ -66,7 +66,7 @@ def _send_mail(email):
 def spawn_event():
     c1, e1, c2, e2, c3 = st.columns([3,1,6,1,3])
     with c1:
-        response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
+        response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
         image = Image.open(BytesIO(response.content))
     with c2 :
         st.write(" ")
@@ -101,7 +101,7 @@ def spawn_archive():
             response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
             image = Image.open(BytesIO(response.content))
             st.image(image, caption=archives_time[0])
-            st.link_button('Accéder', 'http://172.20.10.2:8501/TCP1', use_container_width=True)
+            st.link_button('Accéder', 'https://projet-chev.streamlit.app/TCP1', use_container_width=True)
             
 def calc_event():
     if "invit" not in st.session_state:
