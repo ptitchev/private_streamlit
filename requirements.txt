@@ -1,6 +1,6 @@
 pandas
 numpy
-streamlit==1.19.0
+streamlit==1.31.0
 PyGithub
 spotipy
 altair<5
