@@ -29,7 +29,8 @@ def _invit():
 def spawn_invit():
     c1, e1, c2, e2, c3 = st.columns([3,1,6,1,3])
     with c1:
-        image = Image.open('source\logo2.png')
+        iresponse = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
+        image = Image.open(BytesIO(response.content))
         st.image(image)
     with c2 :
         st.write(" ")
@@ -94,7 +95,7 @@ def spawn_archive():
     with select_archive_menu :
         e1, c1, e2, c2, e3, c3, e4 = st.columns([1,3,1,3,1,3,1])
         with c1 :
-            response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
+            response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
             image = Image.open(BytesIO(response.content))
             st.image(image, caption=archives_time[0])
             st.link_button('Accéder', 'http://172.20.10.2:8501/TCP1', use_container_width=True)
