@@ -32,7 +32,7 @@ def _invit():
 def spawn_invit():
     c1, e1, c2, e2, c3 = st.columns([3,1,6,1,3])
     with c1:
-        iresponse = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
+        response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
         image = Image.open(BytesIO(response.content))
         st.image(image)
     with c2 :
@@ -66,8 +66,8 @@ def _send_mail(email):
 def spawn_event():
     c1, e1, c2, e2, c3 = st.columns([3,1,6,1,3])
     with c1:
-        image = Image.open('source\logo2.png')
-        st.image(image)
+        response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
+        image = Image.open(BytesIO(response.content))
     with c2 :
         st.write(" ")
         st.metric(label="Le weekend du", value="31 mai - 2 juin")
