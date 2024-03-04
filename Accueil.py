@@ -94,7 +94,8 @@ def spawn_archive():
     with select_archive_menu :
         e1, c1, e2, c2, e3, c3, e4 = st.columns([1,3,1,3,1,3,1])
         with c1 :
-            image = Image.open('source\logo.png')
+            response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
+            image = Image.open(BytesIO(response.content))
             st.image(image, caption=archives_time[0])
             st.link_button('Accéder', 'http://172.20.10.2:8501/TCP1', use_container_width=True)
             
