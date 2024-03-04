@@ -6,6 +6,8 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import requests
+import urllib.request
 
 archives_name = ["The Chev Party - volume 1"]
 archives_time = ["Juin 2023"]
