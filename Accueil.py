@@ -6,6 +6,9 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import requests
+import urllib.request
+from io import BytesIO
 
 archives_name = ["The Chev Party - volume 1"]
 archives_time = ["Juin 2023"]
@@ -29,7 +32,8 @@ def _invit():
 def spawn_invit():
     c1, e1, c2, e2, c3 = st.columns([3,1,6,1,3])
     with c1:
-        image = Image.open('source\logo2.png')
+        response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
+        image = Image.open(BytesIO(response.content))
         st.image(image)
     with c2 :
         st.write(" ")
@@ -69,8 +73,8 @@ def _send_mail(email):
 def spawn_event():
     c1, e1, c2, e2, c3 = st.columns([3,1,6,1,3])
     with c1:
-        image = Image.open('source\logo2.png')
-        st.image(image)
+        response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
+        image = Image.open(BytesIO(response.content))
     with c2 :
         st.write(" ")
         st.metric(label="Le weekend du", value="31 mai - 2 juin")
@@ -125,8 +129,10 @@ def spawn_archive():
     with select_archive_menu :
         e1, c1, e2, c2, e3, c3, e4 = st.columns([1,3,1,3,1,3,1])
         with c1 :
-            image = Image.open('source\logo.png')
+            response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
+            image = Image.open(BytesIO(response.content))
             st.image(image, caption=archives_time[0])
+<<<<<<< HEAD
             st.link_button('Accéder', 'http://172.20.10.2:8501/TCP1', use_container_width=True)
 
 def spawn_archive2():
@@ -137,6 +143,9 @@ def spawn_archive2():
             image = Image.open('source\logo.png')
             st.image(image, caption=archives_time[0])
             st.link_button('Accéder', 'http://172.20.10.2:8501/TCP1', use_container_width=True)
+=======
+            st.link_button('Accéder', 'https://projet-chev.streamlit.app/TCP1', use_container_width=True)
+>>>>>>> f80273eb091701365a1732cb4ce83d53b8023bd3
             
 def calc_event():
     if "invit" not in st.session_state:
@@ -157,4 +166,9 @@ st.markdown(hide_sidebar_style,unsafe_allow_html=True)
 #st.write(" ")
 #st.write(" ")
 event = calc_event()
+<<<<<<< HEAD
 spawn_board2(event)            
+=======
+print(event)
+spawn_board(event)            
+>>>>>>> f80273eb091701365a1732cb4ce83d53b8023bd3
