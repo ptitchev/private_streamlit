@@ -43,7 +43,8 @@ def spawn_invit():
         st.button(':ringed_planet: Particper', on_click = _invit)
 
 def spawn_invit2():
-    image = Image.open('https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
+    response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
+    image = Image.open(BytesIO(response.content))
     #e1, c1, e2 = st.columns(3)
     #with c1 :
     st.image(image, use_column_width =True)
