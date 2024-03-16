@@ -140,7 +140,8 @@ def spawn_archive2():
     with select_archive_menu :
         c1, c2 = st.columns(2)
         with c1 :
-            image = Image.open('source\logo.png')
+            response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo.png')
+            image = Image.open(BytesIO(response.content))
             st.image(image, caption=archives_time[0])
             st.link_button('Accéder', 'https://projet-chev.streamlit.app/TCP1', use_container_width=True)
             
