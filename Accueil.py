@@ -38,6 +38,13 @@ def spawn_invit():
         st.write(" ")
         st.button(':ringed_planet: Particper', on_click = _invit)
 
+def spawn_invit2():
+    image = Image.open('source\logo2.png')
+    #e1, c1, e2 = st.columns(3)
+    #with c1 :
+    st.image(image, use_column_width =True)
+    st.button(':ringed_planet: Particper', on_click = _invit, use_container_width = True)
+
 def _send_mail(email):
     subject = "Nouvelle demande"
     body = email
@@ -79,6 +86,20 @@ def spawn_event():
             _send_mail(email)
     spawn_archive()
 
+def spawn_event2():
+    st.metric(label="Le weekend du", value="31 mai - 2 juin")
+    st.divider()
+    st.info("Ceci est une invitation pour ***The chev Party - volume 2*** pour célébrer le temps d'un week-end l'anniv du vraiment formidable *Jules Chevenet*")
+    email = st.text_input("le mailos stp", label_visibility = "hidden", placeholder = "Lache ton mail pour t'inscrire")
+    st.write(" ")
+    e1, c, e2 = st.columns(3)
+    with c :
+        mail = st.button(':cake: Particper', args = email, disabled = "email" in st.session_state, use_container_width = True)
+    if (mail or email) and "mail" not in st.session_state:
+        _send_mail(email)
+    st.write(" ")
+    spawn_archive2()
+
 def spawn_board(elem = None):
     c, e = st.columns([5,1])
     with c :
@@ -89,10 +110,29 @@ def spawn_board(elem = None):
             if elem == 'event':
                 spawn_event()
 
+def spawn_board2(elem = None):
+    E, c, e = st.columns([1,2,1])
+    with c :
+        event = st.container(border = True)
+        with event:
+            if elem == "invit":
+                spawn_invit2()
+            if elem == 'event':
+                spawn_event2()
+
 def spawn_archive():
     select_archive_menu = st.expander('Voir les archives')
     with select_archive_menu :
         e1, c1, e2, c2, e3, c3, e4 = st.columns([1,3,1,3,1,3,1])
+        with c1 :
+            image = Image.open('source\logo.png')
+            st.image(image, caption=archives_time[0])
+            st.link_button('Accéder', 'http://172.20.10.2:8501/TCP1', use_container_width=True)
+
+def spawn_archive2():
+    select_archive_menu = st.expander('Voir les archives')
+    with select_archive_menu :
+        c1, c2 = st.columns(2)
         with c1 :
             image = Image.open('source\logo.png')
             st.image(image, caption=archives_time[0])
@@ -113,9 +153,8 @@ st.set_page_config(page_title="Projet Chev", initial_sidebar_state="collapsed") 
 st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 st.markdown(hide_sidebar_style,unsafe_allow_html=True)
 
-spawn_login()
-st.write(" ")
-st.write(" ")
+#spawn_login()
+#st.write(" ")
+#st.write(" ")
 event = calc_event()
-print(event)
-spawn_board(event)            
+spawn_board2(event)            
