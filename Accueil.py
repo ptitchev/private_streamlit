@@ -9,17 +9,20 @@ from email.mime.text import MIMEText
 import requests
 import urllib.request
 from io import BytesIO
+from streamlit_gsheets import GSheetsConnection
+
+
 
 archives_name = ["The Chev Party - volume 1"]
 archives_time = ["Juin 2023"]
 
-def _login():
-    if "try_login" not in st.session_state:
-            st.session_state["try_login"] = 1
-    else :
-        st.session_state["try_login"] += 1
-    if st.session_state["try_login"] == 5:
-        st.error('TEST : user=chevleboss, password=chev')
+#def _login():
+#    if "try_login" not in st.session_state:
+#            st.session_state["try_login"] = 1
+#    else :
+#        st.session_state["try_login"] += 1
+#    if st.session_state["try_login"] == 5:
+#        st.error('TEST : user=chevleboss, password=chev')
 
 def spawn_login():
     e1, c = st.columns([5,1])
@@ -28,6 +31,34 @@ def spawn_login():
 
 def _invit():
     st.session_state["invit"] = True
+
+
+
+def _try_log(user, psw):
+    user = user.split(' ')[0]
+    psw = psw.split(' ')[0]
+    sql_test_log = f"""
+    SELECT id FROM conn
+    WHERE (
+    mail = $${user}$$ OR surnom = $${user}$$
+    )
+    AND mdp = $${psw}$$
+    """
+    df = conn.query(sql_test_log)
+    if df.shape[0] == 1:
+        st.session_state["connect"] = True
+    else :
+        if "try_login" not in st.session_state:
+            st.session_state["try_login"] = 1
+        else :
+            st.session_state["try_login"] += 1
+        if st.session_state["try_login"] == 5:
+            st.error('TEST : user=chevleboss, password=chev')
+
+        
+
+def _login():
+    st.session_state["login"] = True
 
 def spawn_invit():
     c1, e1, c2, e2, c3 = st.columns([3,1,6,1,3])
@@ -45,10 +76,12 @@ def spawn_invit():
 def spawn_invit2():
     response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
     image = Image.open(BytesIO(response.content))
-    #e1, c1, e2 = st.columns(3)
-    #with c1 :
     st.image(image, use_column_width =True)
-    st.button(':ringed_planet: Particper', on_click = _invit, use_container_width = True)
+    c1, c2 = st.columns(2)
+    with c1 :
+        st.button(':ringed_planet: Particper', on_click = _invit, use_container_width = True)
+    with c2 :
+        st.button(':rocket: Connexion', on_click = _login, use_container_width = True, disabled = ("try_login" in st.session_state and st.session_state["try_login"] > 4))
 
 def _send_mail(email):
     subject = "Nouvelle demande"
@@ -99,11 +132,43 @@ def spawn_event2():
     st.write(" ")
     e1, c, e2 = st.columns(3)
     with c :
-        mail = st.button(':cake: Particper', args = email, disabled = "email" in st.session_state, use_container_width = True)
+        mail = st.button(':cake: Particper', args = email, disabled = "mail" in st.session_state, use_container_width = True)
+        retour = st.button("Retour", use_container_width = True)
+        if retour :
+            del st.session_state["invit"]
+            st.rerun()
     if (mail or email) and "mail" not in st.session_state:
         _send_mail(email)
+        
     st.write(" ")
     spawn_archive2()
+
+    
+def spawn_login2():
+    st.metric(label="Le weekend du", value="31 mai - 2 juin")
+    st.divider()
+    st.info("Ceci est une invitation pour ***The chev Party - volume 2*** pour célébrer le temps d'un week-end l'anniv du vraiment formidable *Jules Chevenet*")
+    user = st.text_input("nom d'utilisateur", placeholder = "Jean")
+    password = st.text_input("mot de passe", placeholder = "Kultonpair", type = "password")
+    st.write(" ")
+    e1, c, e2 = st.columns(3)
+    with c :
+        log = st.button(':cake: Feu', use_container_width = True, disabled = ("try_login" in st.session_state and st.session_state["try_login"] > 4))
+        if (log) and "connect" not in st.session_state:
+            _try_log(user, password)   
+            st.rerun()
+        retour = st.button("Retour", use_container_width = True)
+        st.write("")
+        if retour :
+            del st.session_state["login"]
+            st.rerun()
+    spawn_archive2()
+    
+def spawn_profil():
+    st.metric(label="Le weekend du", value="31 mai - 2 juin")
+    st.divider()
+    tab1, tab2, tab3 = st.tabs(["Infos", "Playlist", "Profil"])
+
 
 def spawn_board(elem = None):
     c, e = st.columns([5,1])
@@ -124,6 +189,10 @@ def spawn_board2(elem = None):
                 spawn_invit2()
             if elem == 'event':
                 spawn_event2()
+            if elem == 'login':
+                spawn_login2()
+            if elem == 'connect':
+                spawn_profil()
 
 def spawn_archive():
     select_archive_menu = st.expander('Voir les archives')
@@ -146,6 +215,10 @@ def spawn_archive2():
             st.link_button('Accéder', 'https://projet-chev.streamlit.app/TCP1', use_container_width=True)
             
 def calc_event():
+    if "connect" in st.session_state:
+        return "connect"
+    if "login" in st.session_state:
+        return "login"
     if "invit" not in st.session_state:
         return "invit"
     else:
@@ -163,5 +236,6 @@ st.markdown(hide_sidebar_style,unsafe_allow_html=True)
 #spawn_login()
 #st.write(" ")
 #st.write(" ")
+conn = st.connection("gsheets", type=GSheetsConnection)
 event = calc_event()
 spawn_board2(event)            
