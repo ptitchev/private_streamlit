@@ -4,3 +4,4 @@ streamlit==1.31.0
 PyGithub
 spotipy
 altair<5
+st-gsheets-connection
