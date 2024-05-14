@@ -28,7 +28,6 @@ hide_streamlit_style = """
             """
 hide_github_icon = """
     <style>
-    stToolbar {visibility: hidden;}
-    viewerBadge {visibility: hidden;}
+    header {visibility: hidden;}
     </style>
     """
