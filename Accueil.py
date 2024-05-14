@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from style.css import hide_menu_style, hide_sidebar_style
+from style.css import hide_github_icon, hide_menu_style, hide_sidebar_style
 import email, smtplib, ssl
 from email import encoders
 from email.mime.base import MIMEBase
@@ -42,6 +42,8 @@ def spawn_login():
 def _invit():
     st.session_state["invit"] = True
 
+def _infos():
+    st.session_state["info"] = True
 
 
 def _try_log(user, psw):
@@ -91,11 +93,11 @@ def spawn_invit2():
     response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/logo2.png')
     image = Image.open(BytesIO(response.content))
     st.image(image, use_column_width =True)
-    c1, c2 = st.columns(2)
-    with c1 :
-        st.button(':ringed_planet: Particper', on_click = _invit, use_container_width = True)
-    with c2 :
-        st.button(':rocket: Connexion', on_click = _login, use_container_width = True, disabled = ("try_login" in st.session_state and st.session_state["try_login"] > 4))
+    #c1, c2 = st.columns(2)
+    #with c1 :
+    st.button(':ringed_planet: Particper', on_click = _infos, use_container_width = True)
+    #with c2 :
+    #    st.button(':rocket: Connexion', on_click = _login, use_container_width = True, disabled = ("try_login" in st.session_state and st.session_state["try_login"] > 4))
 
 def _send_mail(email):
     subject = "Nouvelle demande"
@@ -179,7 +181,7 @@ def spawn_login2():
     spawn_archive2()
 
 def spawn_infos():
-    st.info("Les prochaines infos arriveront + tard")
+    st.info("Ceci est une invitation pour ***The chev Party - volume 2*** pour célébrer le temps d'un week-end l'anniv du vraiment formidable *Jules Chevenet*")
     response = requests.get(url = 'https://raw.githubusercontent.com/ptitchev/private_streamlit/main/source/TCP_2_Poster.png')
     image = Image.open(BytesIO(response.content))
     st.image(image, use_column_width =True)
@@ -281,7 +283,46 @@ def spawn_get_profil():
     else :
         spawn_info_profil(st.session_state["u_mail"], surnom)
 
+def spawn_real_infos():
+    st.info("Tu trouveras ici un maximum d'infos plus ou moins fiable, n'oublies pas de regarder le starter pack et le programme")
+    st.markdown("""
+### On se retrouve ou ?
+A Hurigny, dans la campagne mâconnaise pour un pur weekend de folie
+\n Pour venir en train :
+ - gare de Mâcon-Loché
+ - gare de Mâcon Ville
+### C'est quoi le thème ?
+Cette année le thème sera ***Lost in space*** (Perdu dans l'espace pour les nulos)
+\n Après si personne ne le respecte, c'est le thème qui sera perdu dans l'espace
+### On te contacte comment ?
+**(QUE POUR LES MEUFS)**
+\n Par sms, insta, messenger, Tinder ... 
+""")
+    
+def spawn_programme():
+    st.info("En vrai ça va sûrement être en freestyle, mais essayons quand même")
+    st.markdown(""" ### Vendredi :
+Pour les premiers arrivés, je vous propose de venir vous détendre autour de la piscine avec une bière à la main
+\n Pour les derniers, il n'y aura plus de bière, il faudra passer directement à l'alcool fort
+                """)
+    st.markdown(""" ### Samedi
+ Le **matin** ça sera l'heure de la décuve
+\n Dans **l'après midi** c'est la chillance, y aura possiblement un atelier course et un atelier cuisine pour les + motivés
+\n Et le **soir** c'est le début des hostilités, venez avec votre meilleure tenue vous perde dans l'espace jusqu'au bout de la nuit (avec une diffusion de la final de la LDC sur écran géant)
+                """)
+    st.markdown(""" ### Dimanche
+Petit footing de 25km pour se décrasser à 9h pétante
+                """)
 
+def spawn_SP():
+    st.info("Vrai humain ne vient que avec sa bite et son couteau")
+    st.markdown("""
+                - ta tenue pour te perdre dans **l'espace**
+                - maillot de bain, claquette, serviette ... bref le nécessaire pour la **piscine**
+                - affaire de sport/de rechange, on ne sait jamais ce qui peut arriver
+                - si possible une tente (je prend aussi les tantes), un matelas et un duvet
+                - tout apport de **nourriture** ou de **boisson** sera grandement apprécié !
+                """)
 
 def spawn_profil():
     st.metric(label="Le weekend du", value="31 mai - 2 juin")
@@ -294,6 +335,23 @@ def spawn_profil():
     with tab3 :
         spawn_get_profil()
     spawn_archive2()
+
+def spawn_final_info():
+    st.metric(label="Le weekend du", value="31 mai - 2 juin")
+    st.divider()
+    acc, infos, prog, SP, playlist = st.tabs(["Accueil", "Infos", "Programme", "Starter Pack", "Playlist"])
+    with acc:
+        spawn_infos()
+    with infos:
+        spawn_real_infos()
+    with prog :
+        spawn_programme()
+    with SP:
+        spawn_SP()
+    with playlist :
+        spawn_playlist()
+    spawn_archive2()
+
     
 
 
@@ -309,6 +367,7 @@ def spawn_board(elem = None):
             if elem == 'event':
                 spawn_event()
 
+
 def spawn_board2(elem = None):
     E, c, e = st.columns([1,2,1])
     with c :
@@ -322,6 +381,8 @@ def spawn_board2(elem = None):
                 spawn_login2()
             if elem == 'connect':
                 spawn_profil()
+            if elem == "info":
+                spawn_final_info()
 
 def spawn_archive():
     select_archive_menu = st.expander('Voir les archives')
@@ -348,11 +409,13 @@ def calc_event():
         return "connect"
     if "login" in st.session_state:
         return "login"
+    if "info" in st.session_state:
+        return "info"
     if "invit" not in st.session_state:
         return "invit"
     else:
         return "event"
-
+    
 def spawn_foot():
     e1, c, e2 = st.columns([1,6,1])
     with c :
@@ -370,6 +433,7 @@ def spawn_foot():
 
 
 st.set_page_config(page_title="Projet Chev", initial_sidebar_state="collapsed") #configue page (Nome et nav menu fermé)
+st.markdown(hide_github_icon, unsafe_allow_html=True)
 st.markdown(hide_menu_style, unsafe_allow_html=True) #applique hide_menu_style
 st.markdown(hide_sidebar_style,unsafe_allow_html=True)
 
